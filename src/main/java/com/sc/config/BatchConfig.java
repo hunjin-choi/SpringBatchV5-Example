@@ -2,9 +2,12 @@ package com.sc.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -15,6 +18,11 @@ import com.sc.batch.CustomWriter;
 
 @Configuration
 public class BatchConfig {
+
+	@Bean
+	public JobLauncherApplicationRunner jobLauncherApplicationRunner(JobLauncher jobLauncher, JobExplorer jobExplorer, JobRepository jobRepository) {
+		return new JobLauncherApplicationRunner(jobLauncher, jobExplorer, jobRepository);
+	}
 
 	@Bean
 	Job createJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
